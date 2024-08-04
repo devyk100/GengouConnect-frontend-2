@@ -116,10 +116,6 @@ export class WebrtcConnectionOneToMany {
 
                     }
                 }
-                // else {
-                //     this.peerConnection?.setRemoteDescription(JSON.parse(atob(data.sdp)))
-                //     this.isConnected = true;
-                // }
             }
 
         }
