@@ -46,9 +46,9 @@ export class WebrtcConnectionOneToMany {
                 console.log(this.peerConnection?.iceConnectionState);
             }
             this.peerConnection.onicecandidate = (event) => {
-                console.log(this.userType, "is the user type inside of the onicecandidate")
                 const localDes = btoa(JSON.stringify(this.peerConnection?.localDescription));
                 if (event.candidate === null) {
+                    console.log(this.userType, "is the user type inside of the onicecandidate")
                     console.log(localDes);
                     this.socket.send(JSON.stringify({
                         sdp: localDes,
@@ -102,28 +102,15 @@ export class WebrtcConnectionOneToMany {
                 // the first payload from the server which tells us if the instructor was connected
                 const data = JSON.parse(event.data) as WebrtcEvent;
                 console.log(data)
-                if(data.sdp != "" && !data.disconnect) {
+                if(data.disconnect) {
+                    console.log("TRYING TO DISCONNECT")
+                    this.close()
+                    WebrtcConnectionOneToMany.instance = new WebrtcConnectionOneToMany(videoRef)
+                    return
+                } else {
                     this.peerConnection?.setRemoteDescription(JSON.parse(atob(data.sdp)))
                     this.isConnected = true
                     console.log("Set the remote sdp")
-                    // this.socket.onmessage = (event) => {}
-                    return
-                } else if(data.disconnect){
-                    // console.log(!data.isInstructorConnected , this.userType == UserType.Learner , !this.isConnected)
-                    // console.log("Setting the timeouts")
-                    // if(this.userType === UserType.Learner && !this.isTimerSet){} {
-                    //     this.isTimerSet = true;
-                    //     setTimeout(() => {
-                    //         setTimeout(()=>{
-                    //
-                    //             this.close()
-                    //         }, 10000)
-                    //         // window.location.reload()
-                    //     }, 5000)
-                    //
-                    // }
-                    WebrtcConnectionOneToMany.instance = new WebrtcConnectionOneToMany(videoRef)
-                    this.close()
                 }
             }
 
