@@ -21,7 +21,7 @@ export default function WebRtcVideo() {
     return (
         <>
             {userType}
-            <video id={"video"} ref={videoRef} autoPlay muted></video>
+            <video id={"video"} ref={videoRef} autoPlay muted className="h-[100px] w-[100px]"></video>
             <Button>Unmute</Button>
         </>
     )
