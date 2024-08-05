@@ -9,6 +9,8 @@ type WebrtcEvent = {
     userId: string
 }
 
+let count = 0;
+
 export class WebrtcConnectionOneToMany {
     private socket: WebSocket;
     private readonly userId: string;
@@ -21,6 +23,7 @@ export class WebrtcConnectionOneToMany {
     private isConnected: boolean;
     private isTimerSet: boolean;
     private constructor(videoRef: RefObject<HTMLVideoElement>) {
+        console.log("Initialisation at the ", ++count, "time")
         this.isConnected = false;
         this.isTimerSet = false;
         this.userType = localStorage.getItem("UserType") as UserType;
